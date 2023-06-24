@@ -1,48 +1,42 @@
 'use client'
-import Link from 'next/link'
+import NavLink from 'next/link'
 import { lilitaOne } from '@/app/layout'
 import { useAuth } from '@/contexts/AuthContext'
+import { useRouter } from 'next/navigation'
 import Cookies from 'js-cookie'
 
 
 const Header = () => {
-  const { user, setUser } = useAuth()
+  const router = useRouter()
+  const { user, setUser, setShowSignInModal, setShowSignUpModal } = useAuth()
+
 
   const handleLogOut = () => {
     Cookies.remove('mindpalID')
     setUser(null)
+    router.push('/')
   }
 
   return (
     <header className='w-full bg-zinc-900 px-16'>
-      <nav className='flex py-2 justify-between items-center'>
+      <nav className='flex justify-between items-center'>
 
-        <Link href={!user ? '/' : '/mycategories'}>
-          <h1 className={`${lilitaOne.className} text-2xl`}>MindPal</h1>
-        </Link>
-        <ul className='flex gap-2 sm:gap-4 navList'>
+        <NavLink href={!user ? '/' : '/mycategories'}>
+          <h1 className={`${lilitaOne.className} text-3xl`}>MindPal</h1>
+        </NavLink>
+        <ul className='flex items-center'>
 
           {!user ? (
             <>
-              <Link href="/" className='hidden sm:block'>
-                <li>Home</li>
-              </Link>
-              <Link href="/login">
-                <li>Sign In</li>
-              </Link>
-              <Link href="/register">
-                <li>Sign Up</li>
-              </Link>
+              <li onClick={() => router.push('/')} className='hidden sm:block header-li'>Home</li>
+              <li onClick={() => setShowSignInModal(true)} className='header-li'>Sign In</li>
+              <li onClick={() => setShowSignUpModal(true)} className='header-li'>Sign Up</li>
             </>
 
           ) : (
             <>
-              <Link href="/mycategories" className='hidden sm:block'>
-                <li>My Categories</li>
-              </Link>
-              <Link href="/" onClick={() => handleLogOut()}>
-                <li>Logout</li>
-              </Link>
+              <li onClick={() => router.push('/mycategories')} className='header-li'>My Categories</li>
+              <li onClick={() => handleLogOut()} className='header-li'>Logout</li>
             </>
           )}
         </ul>

@@ -1,15 +1,19 @@
 'use client'
 import { recoverSession, signInAPI } from "@/api";
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useEffect, useContext, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
 
-interface AuthContextType {
+export interface AuthContextType {
   isAuthenticated: boolean;
   user: string | null,
   setUser: any,
-  signIn: any
+  signIn: any,
+  showSignInModal: boolean,
+  setShowSignInModal: React.Dispatch<React.SetStateAction<boolean>>,
+  showSignUpModal: boolean,
+  setShowSignUpModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 interface SignInData {
@@ -24,8 +28,11 @@ interface SignInResponse {
 
 export const AuthContext = createContext({} as AuthContextType);
 
-export const AuthProvider = ({ children }: any) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState(null)
+  // Transform in one single object state
+  const [showSignInModal, setShowSignInModal] = useState(false)
+  const [showSignUpModal, setShowSignUpModal] = useState(false)
   const router = useRouter()
 
   const isAuthenticated = !!user
@@ -63,7 +70,7 @@ export const AuthProvider = ({ children }: any) => {
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, signIn, user, setUser }}>
+    <AuthContext.Provider value={{ isAuthenticated, signIn, user, setUser, showSignInModal, setShowSignInModal, showSignUpModal, setShowSignUpModal }}>
       {children}
     </AuthContext.Provider>
   )

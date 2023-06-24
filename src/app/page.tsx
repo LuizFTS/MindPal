@@ -1,5 +1,5 @@
 'use client'
-import { CardSection, Hero } from "@/components";
+import { CardSection, Hero, SignIn, SignUp } from "@/components";
 import { useAuth } from "@/contexts/AuthContext";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -18,6 +18,8 @@ export default function Home() {
 
   return (
     <>
+      <SignIn />
+      <SignUp />
       {!user ? (
         <div className="flex flex-grow justify-between mt-4">
           <Hero />

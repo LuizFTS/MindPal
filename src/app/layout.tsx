@@ -7,6 +7,8 @@ import { Suspense } from 'react'
 import Loading from './loading'
 import { DBContextProvider } from '@/contexts/DBContext'
 import { ReviewContextProvider } from '@/contexts/ReviewContext'
+import { DefaultProps } from '@/types'
+import { ErrorModalContextProvider } from '@/contexts/ErrorModalContext'
 
 const roboto = Roboto({ weight: ["100", "500", "900"], subsets: ['latin'] })
 export const lilitaOne = Lilita_One({ weight: ['400'], subsets: ['latin'] })
@@ -19,27 +21,28 @@ export const metadata = {
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: DefaultProps) {
 
   return (
-    <ReviewContextProvider>
-      <DBContextProvider>
-        <AuthProvider>
-          <html lang="en">
-            <body className={`${roboto.className} body-bg  min-h-screen flex flex-col`}>
-              <Header />
-              <main className='flex-grow flex flex-col px-16 my-4'>
-                <Suspense fallback={<Loading />}>
-                  {children}
-                </Suspense>
-              </main>
-              <Footer />
-            </body>
-          </html>
-        </AuthProvider>
-      </DBContextProvider>
-    </ReviewContextProvider>
+    <ErrorModalContextProvider>
+      <ReviewContextProvider>
+        <DBContextProvider>
+          <AuthProvider>
+            <html lang="en">
+              <body className={`${roboto.className} body-bg  min-h-screen flex flex-col`}>
+                <Header />
+                <main className='flex-grow flex flex-col px-16 my-4'>
+                  <Suspense fallback={<Loading />}>
+                    {children}
+                  </Suspense>
+                </main>
+                <Footer />
+                <div id='sign-in-modal'></div>
+              </body>
+            </html>
+          </AuthProvider>
+        </DBContextProvider>
+      </ReviewContextProvider>
+    </ErrorModalContextProvider>
   )
 }
