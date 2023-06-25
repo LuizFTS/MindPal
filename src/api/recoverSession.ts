@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 const url = "http://localhost:3001/api/login/token"
 
@@ -14,7 +14,12 @@ export const recoverSession = async ({token}: TokenSignIn) => {
     
     return data
   } catch (error) {
-    const errors: any = error;
-    return errors
+    const err = error as AxiosError
+    if('response' in err && err.response !== undefined){
+      const {response: {data}} = err
+      return data
+    }
+    const response = {errors: ["Please try again later"]}
+    return response
   }
 }

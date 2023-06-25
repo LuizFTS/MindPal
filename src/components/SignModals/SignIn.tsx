@@ -43,6 +43,7 @@ export default function SignIn() {
 
     const { errors } = await signIn({ email, password })
     if (!errors) {
+      router.push('/mycategories')
       setIsLoading(false)
       setShowSignInModal(false)
       return
@@ -50,14 +51,6 @@ export default function SignIn() {
     setErrors(errors)
     setIsLoading(false)
   }
-
-  useEffect(() => {
-    if (user) {
-      router.push('/mycategories')
-    }
-
-  }, [user, router])
-
 
   return (
     <Modal open={showSignInModal} setOpen={setShowSignInModal}>

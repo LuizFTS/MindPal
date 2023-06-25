@@ -1,4 +1,4 @@
-import Loading from '@/app/loading'
+import Loading from './loading'
 import { ReactNode, Suspense } from 'react'
 
 interface paramsProps {

@@ -1,6 +1,7 @@
 'use client'
 // NextJS
 import { useRouter } from 'next/navigation'
+import { GetServerSideProps } from 'next'
 
 // ReactJS
 import { useEffect, useState } from 'react'
@@ -16,6 +17,7 @@ import { createNewCategory } from '@/api'
 
 // Types
 import { DBContextType, ListCardType, ReviewContextType } from '@/types'
+
 
 
 const MyCategoryPage = () => {
@@ -52,7 +54,6 @@ const MyCategoryPage = () => {
     }
   }
 
-
   // useEffect
   useEffect(() => {
     if (!user) {
@@ -61,12 +62,84 @@ const MyCategoryPage = () => {
     }
   }, [user, router])
 
+  /* console.log(lists.map(item => {
+    let status = cards.filter(card => card.category === item._id).map(filteredCard => {
+      if ('difficulty' in filteredCard) {
+        if (filteredCard.difficulty.includes('hard') || filteredCard.difficulty.includes('medium')) {
+          return 1
+        }
+        return 2
+      }
+      return 0
+    }).filter((value, i, self) => self.includes(value, i + 1) === false)
 
+
+    return status
+    cards.filter(i => i.category === item._id).map(dif => {
+      console.log(dif.difficulty)
+      return dif
+    })
+  })) */
+
+  const defineStatus = () => {
+
+    const statusDefined = lists.map(item => {
+      let status = cards.filter(card => card.category === item._id).map(filteredCard => {
+        if ('difficulty' in filteredCard) {
+          if (filteredCard.difficulty.includes('hard') || filteredCard.difficulty.includes('medium')) {
+            return 1;
+          }
+          return 2;
+        }
+        return 0;
+      }).filter((value, i, self) => self.includes(value, i + 1) === false);
+
+      if (status.includes(1)) {
+        return false;
+      } else if (status.includes(2)) {
+        return true;
+      } else {
+        return null;
+      }
+    })
+    return statusDefined
+  }
+
+  console.log(defineStatus())
   return (
     <div className='flex flex-wrap content-start justify-start gap-4'>
-      {lists && lists.length > 0 ? lists.map((item: ListCardType) => (
+      {/* {lists && lists.length > 0 ? lists.map((item: ListCardType) => (
         <Card title={item.category} key={item._id} cards={cards.filter(card => card.category === item._id).length} status={true} path={`mycategories/${item.category}`} />
-      )) : ''}
+      )) : ''} */}
+
+      {lists && lists.length > 0 ? lists.map((item: ListCardType) => {
+        let status = cards.filter(card => card.category === item._id).map(filteredCard => {
+          if ('difficulty' in filteredCard) {
+            if (filteredCard.difficulty.includes('hard') || filteredCard.difficulty.includes('medium')) {
+              return 1;
+            }
+            return 2;
+          }
+          return 0;
+        }).filter((value, i, self) => self.includes(value, i + 1) === false);
+
+        let statusValue: number | boolean = 0;
+        if (status.includes(1)) {
+          statusValue = false;
+        } else if (status.includes(2)) {
+          statusValue = true;
+        }
+
+        return (
+          <Card
+            title={item.category}
+            key={item._id}
+            cards={cards.filter(card => card.category === item._id).length}
+            status={statusValue}
+            path={`mycategories/${item.category}`}
+          />
+        );
+      }) : ''}
 
 
       <FlipCardX

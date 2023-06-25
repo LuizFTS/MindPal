@@ -2,7 +2,7 @@ import { registerUser } from "./register";
 import { signInAPI } from "./login";
 import { recoverSession } from "./recoverSession";
 import { getLists, createNewCategory } from './Categories'
-import { getCards, createNewCard } from "./cards";
+import { getCards, createNewCard, updateReviewDate } from "./cards";
 
 export {
   registerUser,
@@ -11,5 +11,6 @@ export {
   getLists,
   createNewCategory,
   getCards,
-  createNewCard
+  createNewCard,
+  updateReviewDate
 }

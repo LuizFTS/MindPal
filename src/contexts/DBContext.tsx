@@ -25,13 +25,18 @@ export const DBContextProvider = ({ children }: { children: ReactNode }) => {
 
   }, [])
 
-  useEffect(() => {
-    console.log(cards)
+  const refreshData = () => {
+    getLists()
+      .then(response => setLists(response.list))
+      .catch(err => console.log(err))
 
-  }, [cards])
+    getCards()
+      .then(response => setCards(response.cards))
+      .catch(err => console.log(err))
+  }
 
   return (
-    <DBContext.Provider value={{ lists, setLists, cards, setCards }}>
+    <DBContext.Provider value={{ lists, setLists, cards, setCards, refreshData }}>
       {children}
     </DBContext.Provider>
   )

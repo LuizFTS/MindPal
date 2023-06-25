@@ -24,13 +24,11 @@ export const registerUser = async ({firstname, lastname, email, password, confir
     return data
   } catch (error) {
     const err = error as AxiosError
-    if('response' in err){
-      console.log(err)
-      return err
+    if('response' in err && err.response !== undefined){
+      const {response: {data}} = err
+      return data
     }
-    const response = {errors: ["Please try again later."]}
-    console.log(response)
-    const errors: any = error;
+    const response = {errors: ["Please try again later"]}
     return response
   }
 }

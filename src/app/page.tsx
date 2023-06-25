@@ -18,19 +18,24 @@ export default function Home() {
 
   return (
     <>
-      <SignIn />
-      <SignUp />
-      {!user ? (
-        <div className="flex flex-grow justify-between mt-4">
-          <Hero />
-          <CardSection />
-        </div>
-      ) : (
-        <div className='flex flex-col items-center justify-center'>
-          <Loader2 size={48} className='animate-spin' />
-          <p>Loading...</p>
-        </div>
+      {!user && (
+        <>
+          <SignIn />
+          <SignUp />
+          {!user ? (
+            <div className="flex flex-grow justify-between mt-4">
+              <Hero />
+              <CardSection />
+            </div>
+          ) : (
+            <div className='flex flex-col items-center justify-center'>
+              <Loader2 size={48} className='animate-spin' />
+              <p>Loading...</p>
+            </div>
+          )}
+        </>
       )}
     </>
+
   )
 }

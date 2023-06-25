@@ -16,9 +16,7 @@ export const signInAPI = async ({email, password}: SignIn) => {
     
     return data
   } catch (error) {
-    
     const err = error as AxiosError
-    console.log(err)
     if('response' in err && err.response !== undefined){
       const {response: {data}} = err
       return data
