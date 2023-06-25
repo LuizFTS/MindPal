@@ -39,15 +39,15 @@ const ReviewPage = () => {
     const veryeasyReviewTime = veryeasydate.toISOString()
 
     const easydate = new Date()
-    easydate.setDate(easydate.getDate() + 2)
+    easydate.setTime(easydate.getTime() + (5 * 60 * 1000))
     const easyReviewTime = easydate.toISOString()
 
     const mediumdate = new Date()
-    mediumdate.setDate(mediumdate.getDate() + 1)
+    mediumdate.setTime(mediumdate.getTime() + (10 * 60 * 1000))
     const mediumReviewTime = mediumdate.toISOString()
 
     const harddate = new Date()
-    harddate.setTime(harddate.getTime() + (12 * 60 * 60 * 1000))
+    harddate.setTime(harddate.getTime() + (20 * 60 * 1000))
     const hardReviewTime = harddate.toISOString()
 
     switch (difficulty) {

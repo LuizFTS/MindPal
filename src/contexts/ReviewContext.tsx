@@ -12,19 +12,28 @@ export const ReviewContextProvider = ({ children }: { children: ReactNode }) => 
 
   const { cards: dbCards } = useDBContext() as DBContextType
 
+
+
+
+
   useEffect(() => {
     if (dbCards && dbCards.length > 0) {
 
       const filteredCards = dbCards.filter(item => item.category === category?.id)
-      setCards(filteredCards)
+
+      if (filteredCards && filteredCards.length > 0) {
+        const reviewCards = filteredCards.map(item => {
+          const today = new Date().getTime()
+          const data = typeof item.reviewAt === 'string' ? Date.parse(item.reviewAt) : 0
+          return { ...item, review: data < today || data === today }
+        }).filter(card => card?.review === true)
+
+        setCards(reviewCards)
+      }
+
     }
 
   }, [dbCards, category])
-
-  useEffect(() => {
-
-    console.log(cards)
-  }, [cards])
 
   return (
     <ReviewContext.Provider value={{ category, setCategory, cards, setCards }}>

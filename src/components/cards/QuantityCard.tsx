@@ -1,9 +1,9 @@
 'use client'
-import React, { MouseEventHandler } from 'react'
+import React, { MouseEventHandler, ReactNode } from 'react'
 
 interface QuantityCardProps {
   title?: string | number | null,
-  children?: string,
+  children?: ReactNode,
   status?: string,
   className?: string,
   onClick?: MouseEventHandler<HTMLDivElement> | undefined
@@ -27,7 +27,7 @@ const QuantityCard = ({ title, children, status, className, onClick }: QuantityC
   }
 
   return (
-    <div className={`relative flex flex-col justify-center items-center bg-zinc-700 rounded p-4 w-[200px] h-[80px] mx-2 overflow-hidden cursor-pointer ${!className ? '' : className} ${verifyStatus()}`}
+    <div className={`relative flex flex-col justify-center items-center bg-zinc-700 rounded p-4 w-[200px] h-[80px] mx-2 cursor-pointer ${!className ? '' : className} ${verifyStatus()}`}
       onClick={onClick}
     >
       {/* <CardPin status={status} /> */}

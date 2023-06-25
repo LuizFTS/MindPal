@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios'
 import Cookies from 'js-cookie'
 
-const url = "http://localhost:3001/list/category"
+const url = process.env.NEXT_PUBLIC_API_URL + "/list/category"
 
 const token = Cookies.get('mindpalID')
 

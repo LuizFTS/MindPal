@@ -1,5 +1,5 @@
 
-interface DataCategory {
+export interface DataCategory {
   id: number,
   name: string,
 }
@@ -8,7 +8,7 @@ export interface Database {
   category: Array<DataCategory>
 }
 
-interface card {
+export interface card {
   cardId: number,
   categoryId: number,
   question: string,

@@ -11,7 +11,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ErrorContextType } from '@/contexts/ErrorModalContext'
 
-import { AuthContextType } from '@/contexts/AuthContext'
+import { AuthActionsKind, AuthContextType } from '@/types'
 import { registerUser } from '@/api'
 import Cookies from 'js-cookie'
 
@@ -44,8 +44,7 @@ type signUpData = z.infer<typeof signInSchema>
 
 export default function SignUp() {
 
-  const { showSignUpModal, setShowSignUpModal } = useAuth() as AuthContextType
-  const { user } = useAuth()
+  const { authState, dispatch } = useAuth() as AuthContextType
   const router = useRouter()
   const { setErrors, errors: errorsContext, ErrorModal } = useErrorModal() as ErrorContextType
   const [isLoading, setIsLoading] = useState(false)
@@ -56,10 +55,10 @@ export default function SignUp() {
 
 
   useEffect(() => {
-    if (user) {
+    if (authState.user) {
       router.push('/mycategories')
     }
-  }, [user, router])
+  }, [authState.user, router])
 
 
   const handleRegisterUser = async ({ firstname, lastname, email, password, confirmpassword }: signUpData) => {
@@ -76,12 +75,12 @@ export default function SignUp() {
     Cookies.set('mindpalID', token, { expires: 30 })
 
     setIsLoading(false)
-    setShowSignUpModal(false)
+    dispatch({ type: AuthActionsKind.HIDESIGNUPMODAL })
   }
 
 
   return (
-    <Modal open={showSignUpModal} setOpen={setShowSignUpModal}>
+    <Modal open={authState.signUpModal} close={() => dispatch({ type: AuthActionsKind.HIDESIGNUPMODAL })}>
       <div className="absolute h-full w-full bg-black bg-opacity-60 z-10 transition-opacity">
         <div className='flex items-center justify-center h-full w-full'>
           <div className='relative bg-zinc-900 flex flex-col p-11 rounded-lg max-w-2xl min-w-2xl gap-4 border-zinc-700 border'>

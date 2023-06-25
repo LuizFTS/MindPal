@@ -16,8 +16,9 @@ export interface CardType {
   reviewAt?: string,
   updatedAt?: string,
   userid?: string,
-  __v?: number
-  _id?: string
+  __v?: number,
+  _id?: string,
+  review?: boolean,
 }
 
 export interface DBContextType {

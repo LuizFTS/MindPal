@@ -29,7 +29,7 @@ const MyCategoryPage = () => {
 
   // useContext
   const { lists, setLists, cards } = useDBContext() as DBContextType
-  const { user } = useAuth()
+  const { authState } = useAuth()
 
   // RouterContex
   const router = useRouter()
@@ -56,56 +56,12 @@ const MyCategoryPage = () => {
 
   // useEffect
   useEffect(() => {
-    if (!user) {
+    if (!authState.user) {
       router.push('/')
       return
     }
-  }, [user, router])
+  }, [authState.user, router])
 
-  /* console.log(lists.map(item => {
-    let status = cards.filter(card => card.category === item._id).map(filteredCard => {
-      if ('difficulty' in filteredCard) {
-        if (filteredCard.difficulty.includes('hard') || filteredCard.difficulty.includes('medium')) {
-          return 1
-        }
-        return 2
-      }
-      return 0
-    }).filter((value, i, self) => self.includes(value, i + 1) === false)
-
-
-    return status
-    cards.filter(i => i.category === item._id).map(dif => {
-      console.log(dif.difficulty)
-      return dif
-    })
-  })) */
-
-  const defineStatus = () => {
-
-    const statusDefined = lists.map(item => {
-      let status = cards.filter(card => card.category === item._id).map(filteredCard => {
-        if ('difficulty' in filteredCard) {
-          if (filteredCard.difficulty.includes('hard') || filteredCard.difficulty.includes('medium')) {
-            return 1;
-          }
-          return 2;
-        }
-        return 0;
-      }).filter((value, i, self) => self.includes(value, i + 1) === false);
-
-      if (status.includes(1)) {
-        return false;
-      } else if (status.includes(2)) {
-        return true;
-      } else {
-        return null;
-      }
-    })
-    return statusDefined
-  }
-
-  console.log(defineStatus())
   return (
     <div className='flex flex-wrap content-start justify-start gap-4'>
       {/* {lists && lists.length > 0 ? lists.map((item: ListCardType) => (

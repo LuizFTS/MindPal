@@ -11,7 +11,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ErrorContextType } from '@/contexts/ErrorModalContext'
 
-import { AuthContextType } from '@/contexts/AuthContext'
+import { AuthActionsKind, AuthContextType } from '@/types'
 
 
 const signInSchema = z.object({
@@ -27,8 +27,7 @@ type signInData = z.infer<typeof signInSchema>
 
 
 export default function SignIn() {
-  const { showSignInModal, setShowSignInModal, setShowSignUpModal } = useAuth() as AuthContextType
-  const { signIn, user } = useAuth()
+  const { signIn, authState, dispatch } = useAuth() as AuthContextType
   const router = useRouter()
   const { setErrors, errors: errorsContext, ErrorModal } = useErrorModal() as ErrorContextType
   const [isLoading, setIsLoading] = useState(false)
@@ -45,7 +44,7 @@ export default function SignIn() {
     if (!errors) {
       router.push('/mycategories')
       setIsLoading(false)
-      setShowSignInModal(false)
+      dispatch({ type: AuthActionsKind.HIDESIGNINMODAL })
       return
     }
     setErrors(errors)
@@ -53,7 +52,7 @@ export default function SignIn() {
   }
 
   return (
-    <Modal open={showSignInModal} setOpen={setShowSignInModal}>
+    <Modal open={authState.signInModal} close={() => dispatch({ type: AuthActionsKind.HIDESIGNINMODAL })}>
       <div className="absolute h-full w-full bg-black bg-opacity-60 z-10 transition-opacity">
         <div className='flex items-center justify-center h-full w-full'>
           <div className='relative bg-zinc-900 flex flex-col p-11 rounded-lg max-w-2xl min-w-2xl gap-4 border-zinc-700 border'>
@@ -81,10 +80,7 @@ export default function SignIn() {
             ))}
             <div className='flex'>
               <p className='text-sm'>Don&apos;t have an account? &nbsp;</p>
-              <span className='text-sm underline cursor-pointer hover:text-zinc-400' onClick={() => {
-                setShowSignInModal(false)
-                setShowSignUpModal(true)
-              }}>Register</span>
+              <span className='text-sm underline cursor-pointer hover:text-zinc-400' onClick={() => dispatch({ type: AuthActionsKind.CHANGEMODAL })}>Register</span>
             </div>
           </div>
         </div>

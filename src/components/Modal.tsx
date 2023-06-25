@@ -1,19 +1,17 @@
 'use client'
-import { Fragment, ReactNode } from 'react'
+import { Dispatch, Fragment, ReactNode } from 'react'
 import { Transition, Dialog } from '@headlessui/react'
+import { AuthActions, AuthActionsKind } from '@/types'
 
 interface ModalPropsType {
   open: boolean,
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>,
-  children: ReactNode
+  setOpen?: React.Dispatch<React.SetStateAction<boolean>>,
+  children: ReactNode,
+  close(): void
 }
 
 
-export default function Modal({ open, setOpen, children }: ModalPropsType) {
-
-  const handleCloseModal = () => {
-    setOpen(false)
-  }
+export default function Modal({ open, setOpen, children, close }: ModalPropsType) {
 
   return (
     <Transition
@@ -21,7 +19,7 @@ export default function Modal({ open, setOpen, children }: ModalPropsType) {
       as={Fragment}
       show={open}
     >
-      <Dialog as='div' className="relative z-10" onClose={handleCloseModal}>
+      <Dialog as='div' className="relative z-10" onClose={() => close()}>
         <Transition.Child
           enter="transition-opacity duration-1000"
           enterFrom='opacity-0'

@@ -1,20 +1,26 @@
 'use client'
-import { getCards, getLists } from "@/api";
-import { ListCardType } from "@/types";
+// React
 import { createContext, ReactNode, useState, useEffect, useContext } from "react";
-import { useAuth } from "./AuthContext";
+
+// Back-end API functions
+import { getCards, getLists } from "@/api";
+
+// Types
+import { ListCardType } from "@/types";
 
 
+// Context creation
 export const DBContext = createContext({})
 
+// Context Provider
 export const DBContextProvider = ({ children }: { children: ReactNode }) => {
 
   const [lists, setLists] = useState<ListCardType[] | undefined>([])
   const [cards, setCards] = useState<Array<any>>([])
-  const { user } = useAuth()
 
+
+  // When user enter the webpage, the list and cards states will be set according to DB
   useEffect(() => {
-
     getLists()
       .then(response => setLists(response.list))
       .catch(err => console.log(err))
@@ -25,6 +31,8 @@ export const DBContextProvider = ({ children }: { children: ReactNode }) => {
 
   }, [])
 
+
+  // When function is calledm it will update the list and card states according to DB
   const refreshData = () => {
     getLists()
       .then(response => setLists(response.list))
@@ -42,6 +50,7 @@ export const DBContextProvider = ({ children }: { children: ReactNode }) => {
   )
 }
 
+// Custom hook to use the DB context
 export const useDBContext = () => {
   const context = useContext(DBContext)
   if (!context) {

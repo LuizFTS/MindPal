@@ -39,6 +39,13 @@ const MyCategoryScreen = () => {
     filteredCards && filteredCards.filter(card => card.difficulty === 'hard').length,
   ])
 
+  const [reviewCards, setReviewCards] = useState(filteredCards && filteredCards.map(item => {
+    if (item.reviewAt) {
+      const today = new Date().getTime()
+      const data = Date.parse(item.reviewAt)
+      return { card: item._id, review: data < today || data === today }
+    }
+  }))
 
   const handleStartReview = () => {
     if (list !== undefined && 'category' in list) {
@@ -70,7 +77,14 @@ const MyCategoryScreen = () => {
         <QuantityCard title={quantity[2]} status='medium' className='hover:bg-zinc-600 transition-colors'>Medium</QuantityCard>
         <QuantityCard title={quantity[3]} status='hard' className='hover:bg-zinc-600 transition-colors'>Hard</QuantityCard>
       </div>
-      <QuantityCard className={'text-center w-fit transition border-b-4 border-white text-2xl hover:border-cyan-600 hover:bg-zinc-900'} onClick={() => handleStartReview()}>Start Review</QuantityCard>
+      <QuantityCard className={'relative text-center w-fit transition border-b-4 border-white text-2xl hover:border-cyan-600 hover:bg-zinc-900'} onClick={() => handleStartReview()}>
+        <div className={`absolute -bottom-3 -right-3 rounded-full h-6 w-6 bg-red-700 ${reviewCards && reviewCards.filter(card => card?.review === true).length > 0 ? 'bg-red-700' : 'bg-blue-800'}`}>
+          <span className='flex w-full h-full items-center justify-center text-xs font-bold'>
+            {reviewCards && reviewCards.filter(card => card?.review === true).length}
+          </span>
+        </div>
+        Start Review
+      </QuantityCard>
     </>
   )
 }

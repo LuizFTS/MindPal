@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios'
 
-const url = "http://localhost:3001/api/login/token"
+const url = process.env.NEXT_PUBLIC_API_URL + "/api/login/token"
 
 interface TokenSignIn {
   token: string,

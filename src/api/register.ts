@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios'
 
-const url = "http://localhost:3001/api/register"
+const url = process.env.NEXT_PUBLIC_API_URL + "/api/register"
 
 interface UserData {
   firstname: string,
