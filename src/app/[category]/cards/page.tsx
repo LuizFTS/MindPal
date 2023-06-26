@@ -3,14 +3,6 @@ import { FlipCard, PreviousPageButton } from "@/components"
 import { cards as cardsData, data } from "@/utils/db"
 import { usePathname, useRouter } from "next/navigation"
 
-export const getServerSideProps = async () => {
-  return {
-    props: {
-      page: "cards"
-    }
-  }
-}
-
 const CardsScreen = () => {
   const router = useRouter()
 

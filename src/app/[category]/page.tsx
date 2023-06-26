@@ -5,7 +5,6 @@ import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react';
-import withAuthRedirect from '../withAuthRedirect/page';
 
 interface quantityArray {
   difficult: Array<number> | Array<null>;
