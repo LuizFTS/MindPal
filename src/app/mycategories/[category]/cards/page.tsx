@@ -117,7 +117,7 @@ const CardsScreen = () => {
           />
         )) : '0 cards in this list'}
       </div>
-      <Modal open={openModalAddCard} setOpen={setOpenModalAddCard}>
+      <Modal open={openModalAddCard} close={() => setOpenModalAddCard(false)}>
         <div className="rounded-md bg-zinc-900 border border-zinc-700 p-8">
           <form className="flex flex-col gap-2 items-start" onSubmit={handleSubmit(handleAddCard)}>
             <label htmlFor="question" className="first-letter:capitalize">{list && list.category} word or phrase:</label>

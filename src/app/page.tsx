@@ -6,23 +6,23 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Home() {
-  const { user } = useAuth()
+  const { authState } = useAuth()
   const router = useRouter()
 
   useEffect(() => {
-    if (user) {
+    if (authState.user) {
       router.push('/mycategories')
     }
 
-  }, [user, router])
+  }, [authState, router])
 
   return (
     <>
-      {!user && (
+      {!authState.user && (
         <>
           <SignIn />
           <SignUp />
-          {!user ? (
+          {!authState.user ? (
             <div className="flex flex-grow justify-between mt-4">
               <Hero />
               <CardSection />
